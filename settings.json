@@ -3,17 +3,5 @@
     "frontend-design@claude-plugins-official": true,
     "playground@claude-plugins-official": true
   },
-  "alwaysThinkingEnabled": false,
-  "hooks": {
-    "SessionEnd": [
-      {
-        "hooks": [
-          {
-            "type": "prompt",
-            "prompt": "Go through everything that was discussed during this session and come up with a list of items you haven't saved as memories yet, and have the user confirm whether you should save them as memories and where."
-          }
-        ]
-      }
-    ]
-  }
+  "alwaysThinkingEnabled": false
 }
