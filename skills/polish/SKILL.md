@@ -6,6 +6,8 @@ disable-model-invocation: true
 
 # Polish UI and UX
 
+**Task:** `$ARGUMENTS`
+
 ## Role
 
 You are an expert frontend engineer and designer skilled at crafting beautiful, performant frontend applications.
