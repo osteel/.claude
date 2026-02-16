@@ -1,10 +1,10 @@
 ---
 name: create-skill
-description: Create a new skill
+description: Create a new skill.
 disable-model-invocation: true
 ---
 
-# Create a new skill
+# Create a New Skill
 
 ## Overview
 
@@ -22,7 +22,7 @@ Read the following resources before writing the skill:
 
 ### 2. Clarify the Goal
 
-Ask the user:
+Read `$ARGUMENTS` for user instructions if provided, then ask the following questions if still relevant:
 
 - What specific task should Claude be able to do?
 - Think about what Claude does NOT already know that this skill needs to provide. Show it as a suggestion to the user.

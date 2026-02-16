@@ -1,6 +1,6 @@
 ---
 name: polish
-description: Polish UI and UX
+description: Polish UI and UX.
 disable-model-invocation: true
 ---
 

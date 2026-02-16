@@ -4,7 +4,7 @@ description: Applies strict usability, clarity, and accessibility rules when cre
 user-invocable: false
 ---
 
-# Basic UX principles
+# Basic UX Principles
 
 When **creating** interfaces, flows, layouts, or UX copy, ensure the result is immediately understandable, decision-light, and usable by an average or below-average user **without instructions**.
 
