@@ -19,3 +19,9 @@ When creating or updating markdown documentation files:
 - **Delete verbose explanations** - if it takes more than 3 sentences, it's probably too long
 
 Default to 1-2 sentence explanations. Only expand when complexity absolutely requires it.
+
+## Plan Mode
+
+When in plan mode:
+- Make the plan extremely concise. Sacrifice grammar for the sake of concision.
+- At the end of each plan, give the user a list of unresolved questions to answer, if any.

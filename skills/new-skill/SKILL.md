@@ -1,5 +1,5 @@
 ---
-name: create-skill
+name: new-skill
 description: Create a new skill.
 disable-model-invocation: true
 ---

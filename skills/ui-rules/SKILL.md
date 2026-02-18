@@ -1,5 +1,5 @@
 ---
-name: basic-ui-design-rules
+name: ui-rules
 description: Apply high-signal visual design principles for UI work. Use by default when designing UI from scratch or when reviewing, refining, or polishing existing interfaces, including colour, layout, spacing, typography, depth, and components.
 user-invocable: false
 ---

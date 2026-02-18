@@ -3,5 +3,17 @@
     "frontend-design@claude-plugins-official": true,
     "playground@claude-plugins-official": true
   },
-  "alwaysThinkingEnabled": false
+  "alwaysThinkingEnabled": false,
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/yannick/.claude/hooks/optimize-hint.sh"
+          }
+        ]
+      }
+    ]
+  }
 }

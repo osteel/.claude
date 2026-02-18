@@ -1,5 +1,5 @@
 ---
-name: basic-ux-principles
+name: ux-principles
 description: Applies strict usability, clarity, and accessibility rules when creating interfaces, flows, layouts, and UX copy. Use during design and generation, not for critique or reporting.
 user-invocable: false
 ---
