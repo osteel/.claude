@@ -24,7 +24,6 @@ description: Create architectural decision records in MADR format. Use when the 
 
 - **Status**: proposed
 - **Date**: YYYY-MM-DD
-- **Deciders**: [list people involved]
 
 ## Context and Problem Statement
 
