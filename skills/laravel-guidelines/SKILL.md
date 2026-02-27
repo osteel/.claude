@@ -13,8 +13,10 @@ After completing a Laravel implementation task, or when explicitly asked, review
 
 Only record details that are **all three** of:
 - Project-specific (not standard Laravel convention)
-- Not already covered in the project's `CLAUDE.md`
+- Not already covered in an existing `.ai/guidelines/` file, and not already covered in any `CLAUDE.md` content that is *not* sourced from `.ai/guidelines/`
 - Something an agent would only discover through deep codebase analysis — not something guessable
+
+**Important:** `CLAUDE.md` is partially generated from `.ai/guidelines/` via `php artisan boost:install`, but may also contain hand-written content. Do not treat `.ai/guidelines/` content appearing in `CLAUDE.md` as a reason to remove it — that duplication is expected. Only avoid recording something that is already covered in the hand-written portion of `CLAUDE.md` (content not sourced from `.ai/guidelines/`).
 
 Examples of what qualifies:
 - Non-standard file locations that deviate from Laravel convention
@@ -24,7 +26,7 @@ Examples of what qualifies:
 
 Examples of what does NOT qualify:
 - Standard Eloquent patterns, relationship types, casting
-- Anything already in `CLAUDE.md` or inferable from directory structure
+- Anything already in `.ai/guidelines/` or in the hand-written sections of `CLAUDE.md`
 - Implementation details that are self-documenting in the code
 
 ## Process
