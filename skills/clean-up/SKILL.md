@@ -1,16 +1,16 @@
 ---
-name: finalise
+name: clean-up
 description: Clean up completed feature work.
 disable-model-invocation: true
 ---
 
-# Finalise Recent Work
+# Clean Up Recent Work
 
 Clean up completed feature work.
 
 ## Purpose
 
-Clean up the feature or refactor we've been working on in this session. Remove false starts, dead-end approaches, and experimental code now that we have a working solution. This is NOT a general codebase cleanup — it's specifically about consolidating the recent work into a clean, final implementation.
+Clean up the feature or refactor we've been working on in this session, or all uncommitted work. Remove false starts, dead-end approaches, and experimental code now that we have a working solution. This is NOT a general codebase cleanup — it's specifically about consolidating the recent work into a clean, final implementation.
 
 ## Instructions
 
@@ -25,6 +25,7 @@ Clean up the feature or refactor we've been working on in this session. Remove f
    ```
    git status
    git diff --stat HEAD~5  # recent commits if applicable
+   git diff HEAD  # uncommitted changes
    ```
 
 ### Step 2: Identify Cleanup Targets

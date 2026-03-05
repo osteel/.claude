@@ -10,7 +10,7 @@ Identify and add tests for recent code changes.
 
 ## Purpose
 
-Review the feature or changes we've been working on in this session and identify what tests are missing. This is NOT about achieving 100% coverage — it's about ensuring the recent work has appropriate test coverage for the behavior that matters.
+Review the feature or changes we've been working on in this session and all uncommitted work and identify what tests are missing. This is NOT about achieving 100% coverage — it's about ensuring the recent work has appropriate test coverage for the behavior that matters.
 
 ## Instructions
 
