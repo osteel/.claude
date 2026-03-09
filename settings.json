@@ -1,4 +1,10 @@
 {
+  "permissions": {
+    "allow": [
+      "Bash(git diff:*)",
+      "Bash(cd:*)"
+    ]
+  },
   "hooks": {
     "UserPromptSubmit": [
       {
@@ -16,6 +22,5 @@
     "playground@claude-plugins-official": true
   },
   "alwaysThinkingEnabled": false,
-  "effortLevel": "high",
-  "model": "opus"
+  "effortLevel": "high"
 }

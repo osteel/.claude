@@ -13,9 +13,13 @@ description: Create architectural decision records in MADR format. Use when the 
    - What decision needs to be made?
    - What options were considered?
 
-3. **Create the file** at `docs/decisions/NNNN-kebab-case-title.md` using the template below.
+3. **Draft the ADR**: Write the full ADR content using the template below and present it to the user as a markdown code block. Do NOT create any file yet.
 
-4. **Update the index**: If `docs/decisions/README.md` exists, append the new ADR to it.
+4. **Wait for approval**: Ask the user to review the draft and confirm or request changes before proceeding. Do not create the file until the user explicitly approves.
+
+5. **Create the file** at `docs/decisions/NNNN-kebab-case-title.md` only after approval, incorporating any requested changes.
+
+6. **Update the index**: If `docs/decisions/README.md` exists, append the new ADR to it.
 
 ## Template
 
