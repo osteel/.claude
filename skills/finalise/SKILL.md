@@ -1,5 +1,5 @@
 ---
-name: clean-up
+name: finalise
 description: Clean up completed feature work.
 disable-model-invocation: true
 ---
