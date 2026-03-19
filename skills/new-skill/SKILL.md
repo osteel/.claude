@@ -111,12 +111,11 @@ Re-read https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-p
 
 Suggest improvements before proceeding.
 
-### 10. Install Skill
+### 8. Install Skill
 
-Create the skill inside the current folder's `.claude` folder.
+Ask the user: **Global skill or project skill?**
 
-Then ask user: **Global skill or project skill?**
+- **Project skill**: write to `.claude/skills/[skill-name]/` in the current working directory
+- **Global skill**: write directly to `~/.claude/skills/[skill-name]/`
 
-**If project skill**, say: "Skill installed. Restart Claude to use it!"
-
-**If global skill**, say: "Run the following command: `mv .claude/skills/[skill-name] ~.claude/skills/`, then restart Claude to use your new skill!"
+Say: "Skill installed. You can use it immediately."
