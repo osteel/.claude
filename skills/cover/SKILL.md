@@ -76,6 +76,7 @@ For each gap identified:
 3. **Keep tests focused** — one concept per test
 4. **Use descriptive names** — test names should explain the scenario
 5. **Cover the happy path first**, then edge cases and errors
+6. **Use parameterized tests** (datasets, data providers, or the framework equivalent) when testing the same logic with multiple inputs — prefer a single parameterized test over several near-identical tests that differ only in values
 
 ### Step 5: Verify
 
