@@ -67,6 +67,8 @@ For each file in scope:
 
 ### Step 4: Verify
 
+**Only if changes were made in Step 3:**
+
 1. **Invoke the `test` skill** to run the suite and fix any failures introduced by the cleanup
 2. **Run static analysis and linters if available** — renaming and removing code can introduce unused imports or type errors
 3. **Run the build** if applicable
@@ -74,10 +76,12 @@ For each file in scope:
 
 ### Step 5: Summary
 
-Report back with:
+If changes were made, report:
 - Files cleaned up
 - What was removed/consolidated
 - Any code you were uncertain about deleting — flag these explicitly rather than deleting silently
+
+If no changes were needed, say so clearly and stop.
 
 ## Important
 
