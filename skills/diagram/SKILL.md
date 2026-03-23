@@ -1,5 +1,5 @@
 ---
-name: flow
+name: diagram
 description: Create ASCII diagrams for flows, architectures, and processes.
 disable-model-invocation: true
 ---
@@ -99,7 +99,7 @@ Use the AskUserQuestion tool with these options:
 [ASCII diagram in code block]
 
 ---
-*Generated with /ascii*
+*Generated with /diagram*
 ```
 
 **Appending to existing file**:
@@ -109,7 +109,7 @@ Use the AskUserQuestion tool with these options:
 
 ## Examples
 
-**Input**: `/ascii user login flow`
+**Input**: `/diagram user login flow`
 
 **Output**:
 ```
@@ -129,7 +129,7 @@ Use the AskUserQuestion tool with these options:
                               └─────────┘   └─────────┘
 ```
 
-**Input**: `/ascii api request lifecycle`
+**Input**: `/diagram api request lifecycle`
 
 **Output**:
 ```

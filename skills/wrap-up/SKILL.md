@@ -1,6 +1,6 @@
 ---
 name: wrap-up
-description: Wraps up completed work – updates PLAN.md if present, updates AI guidelines and ADR docs where applicable, commits everything, then opens or updates a GitHub PR. Guards against working on main.
+description: Wraps up completed work — use when the user says things like "ship it", "let's wrap up", "create a PR", "commit and push", or "I'm done". Updates PLAN.md if present, updates AI guidelines and ADR docs where applicable, commits everything, then opens or updates a GitHub PR. Guards against working on main.
 user-invocable: true
 disable-model-invocation: true
 ---
@@ -13,7 +13,11 @@ Run `git branch --show-current`.
 
 If the branch is `main` or `master`, stop and tell the user they're on the main branch. Suggest a sensible branch name based on recent changes or the current task, and offer to create the branch before continuing.
 
-## 2. Check for PLAN.md
+## 2. Run the test suite
+
+Invoke the `test` skill. If all tests pass, continue. If any fail, stop and resolve them before proceeding.
+
+## 3. Check for PLAN.md
 
 Use the Glob tool to check if `PLAN.md` exists in the working directory (it could be in subfolders).
 
@@ -24,41 +28,41 @@ If found:
 - Present your proposed changes to the user and wait for approval before editing PLAN.md
 - Apply approved changes to PLAN.md before continuing
 
-## 3. Update AI guidelines (Laravel projects only)
+## 4. Update AI guidelines (Laravel projects only)
 
 Check if an `.ai/guidelines/` directory exists in the project root. If it does not exist, skip this step silently.
 
-If it exists, examine the uncommitted diff (`git diff HEAD`) for any non-obvious project-specific decisions that future agents would not infer from standard Laravel patterns or existing guidelines. If you find anything worth recording, invoke the `laravel-guidelines` skill. If nothing qualifies, skip silently.
+If it exists, examine the uncommitted diff (`git diff HEAD`) for any non-obvious project-specific decisions that future agents would not infer from standard Laravel patterns or existing guidelines. If you find anything worth recording, invoke the `laravel-guidelines` skill (that skill may ask you questions — answer them and continue). If nothing qualifies, skip silently.
 
-## 4. Create an ADR (if applicable)
+## 5. Create an ADR (if applicable)
 
 Check if a directory for ADRs exists in the project (look for `docs/decisions/`, `docs/adr/`, or similar). If no such directory exists, skip this step silently.
 
-If it exists, examine the uncommitted diff (`git diff HEAD`) for architectural or significant design decisions that warrant an ADR. If you identify one, invoke the `adr` skill. If nothing warrants an ADR, skip silently.
+If it exists, examine the uncommitted diff (`git diff HEAD`) for architectural or significant design decisions that warrant an ADR. If you identify one, invoke the `adr` skill (that skill may ask you questions — answer them and continue). If nothing warrants an ADR, skip silently.
 
-## 5. Commit uncommitted changes (if any)
+## 6. Commit uncommitted changes (if any)
 
 Run `git status --short` (never `-uall`).
 
 If there are staged or unstaged changes (including any PLAN.md or ADR files from the steps above):
 - Run `git diff HEAD` to understand what changed
-- Stage relevant files by name (never `git add -A` or `git add .`)
+- Stage relevant files by name (never `git add -A` or `git add .`); if `git diff HEAD` shows files that seem unrelated to the current task, flag them to the user before staging and ask whether to include them
 - Write a clear commit message and commit immediately (no confirmation needed)
 - Commit using the project's default git config (no co-author lines, no Claude attribution)
 
-## 6. Push the branch
+## 7. Push the branch
 
 Check if the branch has a remote tracking branch and is ahead. Push with `-u origin <branch>` if needed.
 
-## 7. Check for an existing PR
+## 8. Check for an existing PR
 
 Run `gh pr view --json number,title,url 2>/dev/null`.
 
 Branch on the result:
-- **No PR exists** → go to step 8
-- **PR exists** → go to step 9
+- **No PR exists** → go to step 9
+- **PR exists** → go to step 10
 
-## 8. Create the PR
+## 9. Create the PR
 
 Gather context:
 - `git log main...HEAD --oneline` — all commits on this branch
@@ -85,14 +89,16 @@ EOF
 
 Then print the PR URL.
 
-## 9. Update the existing PR
+## 10. Update the existing PR
+
+Note: this rewrites the entire PR body. If the existing description contains manually-added notes or reviewer context worth preserving, incorporate them into the rewrite rather than discarding them.
 
 Gather context:
 - `git log main...HEAD --oneline`
 - `git diff main...HEAD`
 - Current PR body: `gh pr view --json body -q .body`
 
-Rewrite the PR description to reflect the current state of the branch (same format as step 7). Update with:
+Rewrite the PR description to reflect the current state of the branch (same format as step 9). Update with:
 
 ```
 gh pr edit --body "$(cat <<'EOF'

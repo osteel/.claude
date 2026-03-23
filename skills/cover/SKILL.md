@@ -1,6 +1,6 @@
 ---
 name: cover
-description: Identify and add tests for recent code changes.
+description: Identify and add tests for recent code changes. Use when the user says things like "add some tests", "make sure this is tested", "we need tests for this", or after completing a feature or fix. Invoke proactively when significant new behavior has been added without tests.
 disable-model-invocation: true
 ---
 
@@ -60,6 +60,7 @@ For each modified file, consider:
    - Look for existing test files for the modified code
    - Check what's already covered
    - Understand the testing patterns used in the project
+   - If no test file exists yet for a modified file, look at sibling test files in the same directory for the pattern to follow
 
 2. **Identify gaps**:
    - New code without any tests
@@ -70,7 +71,7 @@ For each modified file, consider:
 
 For each gap identified:
 
-1. **Follow project conventions** — match existing test file structure, naming, and patterns
+1. **Follow project conventions** — match existing test file structure, naming, and patterns. If a skill specific to the project's testing framework is available, invoke it when writing tests.
 2. **Focus on behavior** — test what the code does, not how it does it
 3. **Keep tests focused** — one concept per test
 4. **Use descriptive names** — test names should explain the scenario
@@ -79,7 +80,7 @@ For each gap identified:
 ### Step 5: Verify
 
 1. **Run the new tests** to ensure they pass
-2. **Run the full test suite** to ensure nothing broke
+2. **Run the affected test files**, then the full test suite if feasible
 3. **Intentionally break the code** to verify tests catch it (then revert)
 
 ### Step 6: Summary
@@ -88,7 +89,7 @@ Report back with:
 - Tests added (file and test names)
 - What behavior is now covered
 - Any gaps that couldn't be easily tested (and why)
-- Suggestions for future test improvements
+- Any gaps in the current changes that couldn't be easily tested (and why)
 
 ## Important
 

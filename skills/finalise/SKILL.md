@@ -1,6 +1,6 @@
 ---
 name: finalise
-description: Clean up completed feature work.
+description: Clean up completed feature work — remove dead code, false starts, and over-engineering from iteration. Use when the user says things like "clean this up", "tidy this", "remove the dead code", or "let's clean up before the PR".
 disable-model-invocation: true
 ---
 
@@ -67,16 +67,17 @@ For each file in scope:
 
 ### Step 4: Verify
 
-1. **Run tests** to ensure the cleanup didn't break anything
-2. **Run the build** if applicable
-3. **Quick manual test** of the feature if appropriate
+1. **Invoke the `test` skill** to run the suite and fix any failures introduced by the cleanup
+2. **Run static analysis and linters if available** — renaming and removing code can introduce unused imports or type errors
+3. **Run the build** if applicable
+4. **Quick manual test** of the feature if appropriate
 
 ### Step 5: Summary
 
 Report back with:
 - Files cleaned up
 - What was removed/consolidated
-- Any concerns or items that need user input
+- Any code you were uncertain about deleting — flag these explicitly rather than deleting silently
 
 ## Important
 
@@ -84,3 +85,4 @@ Report back with:
 - **Preserve the working solution** — this is about cleaning, not reimplementing
 - **Ask if uncertain** — if unsure whether something is a false start or intentional, ask
 - **Keep it simple** — the goal is clarity and maintainability, not perfection
+- **Let `cover` handle test gaps** — this skill is about code cleanliness, not test coverage; if you notice missing tests, note them but don't write them here
