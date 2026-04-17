@@ -55,14 +55,16 @@ The subagent should return the gathered context — key excerpts, file paths, an
 
 Wait for the subagent to return before continuing.
 
-### 2.2 Planning (main agent, plan mode)
+### 2.2 Planning (main agent, /grill-me)
 
-Using the gathered context, enter plan mode and write a concise implementation plan covering:
+Using the gathered context, invoke `/grill-me` to stress-test the approach with the user before writing a plan. The interview should surface:
 
 - What will be created or changed (files, classes, DB schema, documentation, etc.)
 - Key decisions or trade-offs
 - Any risks or unknowns
 - Any clarifying questions that must be answered before implementation can begin
+
+Once `/grill-me` reaches shared understanding, synthesise the outcomes into a concise implementation plan.
 
 ---
 
@@ -126,7 +128,7 @@ Run the following skills in order, each as a subagent. Run them sequentially —
 | 6.3 | `review` | Always | Fix critical/major findings, then continue |
 | 6.4 | `test` | Always | Fix failures before moving on |
 | 6.5 | `cover` | Always | Add missing tests, then continue |
-| 6.6 | metrics | If the project exposes tooling for code quality, performance, or other metrics (e.g. an `/analyse` skill, linters, profilers), run them; otherwise skip | Fix issues before moving on |
+| 6.6 | `analyse` | If the project exposes an `/analyse` skill, run it; otherwise check for linters or profilers and run those; skip if none exist | Fix issues before moving on |
 | 6.7 | `finalise` | Always | Fix, then continue |
 | 6.8 | `wrap-up` | Always | Resolve blockers before completing |
 
