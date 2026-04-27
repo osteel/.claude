@@ -35,11 +35,22 @@ Ask the user: "What task would you like to tackle?" Wait for their response, the
 
 ---
 
+## Already-planned check
+
+Before running Steps 2 and 3, check whether the task already has a plan:
+
+- Does `PLAN.md` (or `plan.md`) exist and contain a section that covers this task with concrete implementation steps?
+- Or does the task description itself (from arguments or conversation context) already contain a structured implementation plan?
+
+If yes, **skip Steps 2 and 3** and go directly to Step 4. Present a brief summary of the plan you found so the user can confirm it's the right one before continuing.
+
+---
+
 ## Step 2: Context gathering and planning
 
 ### 2.1 Context gathering (subagent)
 
-Delegate context gathering to a subagent using the Agent tool with the most capable model available. Pass it:
+Delegate context gathering to a subagent using the Agent tool. Use the best available model — accurate context gathering directly shapes plan quality. Pass it:
 
 - The task description
 - The plan file contents (if found)
@@ -57,7 +68,9 @@ Wait for the subagent to return before continuing.
 
 ### 2.2 Planning (main agent, /grill-me)
 
-Using the gathered context, invoke `/grill-me` to stress-test the approach with the user before writing a plan. The interview should surface:
+Using the gathered context, invoke `/grill-me` to stress-test the approach with the user before writing a plan. Use the best available model.
+
+The interview should surface:
 
 - What will be created or changed (files, classes, DB schema, documentation, etc.)
 - Key decisions or trade-offs

@@ -1,6 +1,6 @@
 ---
 name: wrap-up
-description: Wraps up completed work — use when the user says things like "ship it", "let's wrap up", "create a PR", "commit and push", or "I'm done". Updates PLAN.md if present, updates AI guidelines and ADR docs where applicable, commits everything, then opens or updates a GitHub PR. Guards against working on main.
+description: Wraps up completed work — use when the user says things like "ship it", "let's wrap up", "create a PR", "commit and push", or "I'm done". Updates plan if present, updates AI guidelines and ADR docs where applicable, commits everything, then opens or updates a GitHub PR. Guards against working on main.
 effort: high
 ---
 
@@ -20,16 +20,16 @@ First, check whether a test run is necessary:
 - If there are no uncommitted changes, or all changes are to documentation or configuration files only (e.g. `.md` files, `PLAN.md`, ADR files, guidelines, lock files), skip this step — the suite was already passing and nothing that could affect tests has changed.
 - If there are uncommitted changes to source or test files, invoke the `test` skill. If all tests pass, continue. If any fail, stop and resolve them before proceeding. If no test command can be identified (no config, no test scripts), note this and continue.
 
-## 3. Check for PLAN.md
+## 3. Update the plan
 
-Use the Glob tool to search recursively for `PLAN.md` or `plan.md` anywhere in the working directory tree (pattern `**/PLAN.md`).
+Use the Glob tool to search recursively for `PLAN.md`, or `plan.md`, or any other file layout a plan the current task may be a part of anywhere in the working directory tree.
 
 If found:
 - Read it
 - Run `git diff HEAD` and `git status --short` to understand what changed
 - Determine which phases or tasks should be marked completed and what (if anything) needs updating
-- Present your proposed changes to the user and wait for approval before editing PLAN.md
-- Apply approved changes to PLAN.md before continuing
+- Present your proposed changes to the user and wait for approval before editing the plan
+- Apply approved changes to the plan before continuing
 
 ## 4–6. Post-implementation documentation
 
