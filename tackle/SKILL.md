@@ -134,16 +134,16 @@ Wait for the subagent to complete and report back. If it reports failures or blo
 
 Run the following skills in order, each as a subagent. Run them sequentially — only start the next if the previous succeeded. Resolve failures before continuing.
 
-| Step | Skill | Condition | On failure |
-|------|-------|-----------|------------|
-| 6.1 | `simplify` | Only if available (global or project skill) | Fix, then continue |
-| 6.2 | `polish` | Only if implementation touched UI/UX (views, layouts, CSS/Tailwind) | Fix, then continue |
-| 6.3 | `review` | Always | Fix critical/major findings, then continue |
-| 6.4 | `test` | Always | Fix failures before moving on |
-| 6.5 | `cover` | Always | Add missing tests, then continue |
-| 6.6 | `analyse` | If the project exposes an `/analyse` skill, run it; otherwise check for linters or profilers and run those; skip if none exist | Fix issues before moving on |
-| 6.7 | `finalise` | Always | Fix, then continue |
-| 6.8 | `wrap-up` | Always | Resolve blockers before completing |
+| Step | Skill | Subagent | Model | Condition | On failure |
+|------|-------|----------|-------|-----------|------------|
+| 6.1 | `simplify` | Yes | Fastest capable | Only if available (global or project skill) | Fix, then continue |
+| 6.2 | `polish` | Yes | Best available | Only if implementation touched UI/UX (views, layouts, CSS/Tailwind) | Fix, then continue |
+| 6.3 | `review` | Yes | Best available | Always | Fix critical/major findings, then continue |
+| 6.4 | `test` | Yes | Fastest capable | Always | Fix failures before moving on |
+| 6.5 | `cover` | Yes | Best available | Always | Add missing tests, then continue |
+| 6.6 | `analyse` | Yes | Fastest capable | If the project exposes an `/analyse` skill, run it; otherwise check for linters or profilers and run those; skip if none exist | Fix issues before moving on |
+| 6.7 | `finalise` | Yes | Best available | Always | Fix, then continue |
+| 6.8 | `wrap-up` | No | — | Always | Resolve blockers before completing |
 
 ---
 
