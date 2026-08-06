@@ -52,6 +52,8 @@ For each failing test, start by running just the failing test(s) in isolation �
 
 **One green full-suite run is the answer.** Don't re-run it to double-check, and don't run it again "for the record" — a second pass on unchanged code tells you nothing the first didn't, and on a slow suite it's the most expensive way to learn that. If a clean result is surprising, spend the time confirming the tests actually exercise the change (read them, or break the behaviour and watch them fail) rather than repeating the same run.
 
+**If the runner is impact-filtered, report what actually ran.** Pest's Tia, `jest --onlyChanged`, pytest-testmon and friends execute the affected tests and replay the rest from cache — while still printing the *total* count. Trust the verdict; these tools track dependencies precisely, and re-running everything by hand defeats the point of having them. But don't launder a replay into "the full suite passed": say which tests ran, and quote the runner's own summary of what it considered affected. Check project docs for the escape hatch (`--no-tia`, `--ci`, …) and use it only when you have a concrete reason to distrust the graph.
+
 ## Phase 4: Complete
 
 1. **Once all tests pass**, summarize:
