@@ -16,6 +16,8 @@ Invoke the `ui-rules` and `ux-principles` skills using the Skill tool before doi
 
 Present all recommendations at once and wait for the user to approve before implementing anything. Once approved, implement all agreed changes in one pass.
 
+**If you're running as a subagent, there is no user to approve** — stalling for one would hang the caller. Instead, apply the recommendations that are clearly right (a violated design rule, an obvious spacing or contrast defect) and leave anything that's a matter of taste or would change the interaction design. List what you skipped, and why, in your report so the caller can put it to the user.
+
 After implementing, check whether tests exist for the affected components. If they do, run them to catch any regressions. If none exist, skip this step.
 
 Done when: all approved recommendations are applied and tests pass (or were skipped).

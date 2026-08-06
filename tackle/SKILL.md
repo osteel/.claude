@@ -39,6 +39,25 @@ Ask the user: "What task would you like to tackle? (You can also pass a GitHub i
 
 ---
 
+## Blocker check
+
+Now that the task is identified, work out whether it depends on something that isn't done yet. Starting on a blocked task tends to produce work that has to be redone once the prerequisite lands — cheaper to catch it now than after implementation.
+
+Look for two kinds of signal:
+
+- **Explicit** — the task text says so: "blocked by", "depends on", "after X", "once Y is merged", a linked issue, a `Depends on #12` line, or a plan file where this item sits under a later phase whose earlier phases aren't complete.
+- **Inferred** — nothing says it outright, but the task assumes something that doesn't exist yet: it extends a model, endpoint, or component that isn't in the codebase; it consumes an API or migration another plan item is meant to introduce; a sibling task in the plan clearly has to land first.
+
+Check cheaply — read the plan file around this task, grep for the things the task assumes exist, and if the task came from a GitHub issue, look at what it references (`gh issue view <N>` output already includes the body; follow up on linked issues only if the body points at one).
+
+If it looks blocked, say what you found and let the user decide:
+
+> This looks like it depends on **<blocker>** — <one line of evidence, e.g. "PLAN.md phase 2 introduces the `Subscription` model this task extends, and it doesn't exist yet">. Do you want to tackle that first, or proceed anyway?
+
+Wait for their answer. They may know the blocker is already handled elsewhere, or want to proceed regardless — either is fine, just don't decide it silently. If nothing suggests a dependency, move on without comment; don't manufacture doubt.
+
+---
+
 ## Already-planned check
 
 Before running Steps 2 and 3, check whether the task already has a plan:

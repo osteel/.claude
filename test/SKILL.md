@@ -6,10 +6,14 @@ effort: medium
 
 # Run Tests and Fix Failures
 
+## Running without a user
+
+The approval gates below assume someone is there to answer. If you're running as a subagent, nobody is â€” waiting would hang the caller. In that mode: fix the failures whose cause and remedy are unambiguous, leave the ones that need a judgment call, and put both lists in your report. A clear report the caller can act on beats a guess, and beats a stall.
+
 ## Notes
 
 - Prefer fixing source code bugs over adjusting tests to pass
-- If a test seems wrong but you're unsure, ask the user before changing it
+- If a test seems wrong but you're unsure, ask the user before changing it â€” or, as a subagent, leave it and flag it
 - For flaky tests, look for race conditions, timing issues, or shared state
 - Don't skip or delete tests without user approval
 - If tests require environment setup (database, API keys, Docker), inform the user
@@ -35,6 +39,8 @@ For each failing test, start by running just the failing test(s) in isolation â€
    - Whether the fix should be in the test or source code
    - Your proposed approach
 
+   As a subagent, skip the wait: proceed with the unambiguous fixes and report the rest (see "Running without a user").
+
 2. **Implement the fix**:
    - If test is outdated: update the test expectations
    - If code is buggy: fix the source code
@@ -43,6 +49,8 @@ For each failing test, start by running just the failing test(s) in isolation â€
 3. **Re-run the specific failing test** to verify, then run the full suite to check for regressions
 
 4. **If still failing**, re-diagnose and repeat
+
+**One green full-suite run is the answer.** Don't re-run it to double-check, and don't run it again "for the record" â€” a second pass on unchanged code tells you nothing the first didn't, and on a slow suite it's the most expensive way to learn that. If a clean result is surprising, spend the time confirming the tests actually exercise the change (read them, or break the behaviour and watch them fail) rather than repeating the same run.
 
 ## Phase 4: Complete
 

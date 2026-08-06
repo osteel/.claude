@@ -10,16 +10,18 @@ Identify and add tests for recent code changes.
 
 ## Purpose
 
-Review the feature or changes we've been working on in this session and all uncommitted work and identify what tests are missing. This is NOT about achieving 100% coverage — it's about ensuring the recent work has appropriate test coverage for the behavior that matters.
+Work out what tests the recent changes are missing. This is NOT about achieving 100% coverage — it's about ensuring the recent work has appropriate test coverage for the behavior that matters.
 
 ## Instructions
 
 ### Step 1: Identify Recent Work Scope
 
-1. **Review the conversation** to understand:
-   - What feature/fix/refactor we've been building
-   - Which files were created or modified
-   - What behavior changed or was added
+1. **Establish what was built and why.** Take it from whichever of these you actually have:
+   - A **brief** from the caller (task description, plan excerpt) — use it; it states the intent the tests should hold the code to.
+   - Otherwise the **conversation**, if you're in a session that has one.
+   - Otherwise the **diff and commit messages** alone. That's enough to work from — read them for intent, not just mechanics.
+
+   Note which of these you used; if you're inferring intent from the diff alone, say so in your report, because a reader may want to check your reading of it.
 
 2. **Check git status** to see the changes:
    ```
@@ -63,9 +65,10 @@ For each gap identified:
 ### Step 5: Verify
 
 1. **Run the new tests** to ensure they pass
-2. **Run the affected test files**, then the full test suite if feasible
+2. **Run the affected test files** — the ones you touched plus their close neighbours, not the whole suite
 3. **Intentionally break the code** to verify tests catch it (then revert). This mutation check is the only reliable way to confirm a test actually covers the code path it claims to — a passing test that doesn't catch breakage is worse than no test.
-4. **Run the full suite** via the `test` skill if it hasn't been run yet.
+
+Those three are the whole verification story here. Don't reach for a full-suite run: this skill adds tests rather than changing source, so there's no regression for a wider run to find, and the mutation check is stronger evidence than a green suite anyway. Whoever runs the suite next — `pipeline`, `wrap-up`, or the user — will cover it.
 
 ### Step 6: Summary
 
@@ -79,5 +82,5 @@ Report back with:
 - **Don't over-test** — focus on behavior that matters, not coverage metrics
 - **Don't expand scope** — only test the recent work, not the whole codebase
 - **Match project style** — use the same test framework, patterns, and conventions
-- **Ask if uncertain** — if unsure what testing approach to use, ask
+- **Ask if uncertain** — if unsure what testing approach to use, ask. As a subagent there's no one to ask: follow the closest existing test in the project and note the call you made in your report.
 - **Tests should be maintainable** — avoid brittle tests that break on implementation changes

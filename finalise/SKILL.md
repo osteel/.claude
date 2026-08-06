@@ -10,16 +10,18 @@ Clean up completed feature work.
 
 ## Purpose
 
-Clean up the feature or refactor we've been working on in this session, or all uncommitted work. Remove false starts, dead-end approaches, and experimental code now that we have a working solution. This is NOT a general codebase cleanup — it's specifically about consolidating the recent work into a clean, final implementation.
+Clean up the recent feature or refactor. Remove false starts, dead-end approaches, and experimental code now that we have a working solution. This is NOT a general codebase cleanup — it's specifically about consolidating the recent work into a clean, final implementation.
 
 ## Instructions
 
 ### Step 1: Identify Recent Work Scope
 
-1. **Review the conversation** to understand:
-   - What feature/refactor we've been building
-   - Which files were created or modified
-   - What approaches were tried (including ones that didn't work)
+1. **Establish what was built, and what was tried and abandoned.** Take it from whichever of these you have:
+   - A **brief** from the caller (task description, plan excerpt).
+   - Otherwise the **conversation**, if you're in a session that has one.
+   - Otherwise the **diff and commit history** alone (`git log -p`, `git diff HEAD`) — abandoned approaches often survive as superseded commits.
+
+   This matters more here than in most skills: the difference between "dead code from a false start" and "code the author put there on purpose" is exactly the history you're reconstructing. Working from the diff alone, stay conservative — flag rather than delete anything you can't place.
 
 2. **Check git status** to see uncommitted changes and recently modified files:
    ```
@@ -52,7 +54,7 @@ For each file in scope:
 
 **Only if changes were made in Step 3:**
 
-1. **Invoke the `test` skill** to run the suite and fix any failures introduced by the cleanup
+1. **Run the tests covering the files you touched**, then invoke the `test` skill for a full-suite run — deleting and renaming is exactly the kind of change that breaks something at a distance. If the caller owns test execution (as `pipeline` does), skip the full-suite run and note it in your report — the caller's run covers what targeted runs miss.
 2. **Run static analysis and linters if available** — renaming and removing code can introduce unused imports or type errors
 3. **Run the build** if applicable
 4. **Quick manual test** of the feature if appropriate
@@ -70,6 +72,6 @@ If no changes were needed, say so clearly and stop.
 
 - **Don't expand scope** — only touch files related to the recent work
 - **Preserve the working solution** — this is about cleaning, not reimplementing
-- **Ask if uncertain** — if unsure whether something is a false start or intentional, ask
+- **Ask if uncertain** — if unsure whether something is a false start or intentional, ask. As a subagent there's no one to ask, so the rule inverts to its safe side: leave it in place and flag it in your report. Deleting something deliberate is far more expensive than leaving debris for the next pass.
 - **Keep it simple** — the goal is clarity and maintainability, not perfection
 - **Let `cover` handle test gaps** — this skill is about code cleanliness, not test coverage; if you notice missing tests, note them but don't write them here
