@@ -1,6 +1,6 @@
 ---
 name: pipeline
-description: Run the full post-implementation quality pipeline on a completed set of code changes — simplify, polish, review, finalise, analyse, cover, test — then wrap it into a pull request and monitor CI until it's green. Trigger whenever a change is written and the user wants it hardened and shipped — "run the pipeline", "run it through the pipeline", "harden these changes", "get this branch ready to merge", "QA this and open a PR", "polish and ship this", or after finishing an implementation when the next move is the quality gate. This spawns several subagents and ends in a PR with green CI — it's the heavyweight "whole quality pass" option. For a single step (just review, just run tests, just open a PR), use that individual skill instead.
+description: Run the full post-implementation quality pipeline on a completed set of code changes — simplify, polish, review, finalise, analyse, cover, test, qa — then wrap it into a pull request and monitor CI until it's green. Trigger whenever a change is written and the user wants it hardened and shipped — "run the pipeline", "run it through the pipeline", "harden these changes", "get this branch ready to merge", "QA this and open a PR", "polish and ship this", or after finishing an implementation when the next move is the quality gate. This spawns several subagents and ends in a PR with green CI — it's the heavyweight "whole quality pass" option. For a single step (just review, just run tests, just open a PR), use that individual skill instead.
 effort: max
 ---
 
@@ -32,8 +32,9 @@ Before invoking anything, write out each step, resolving the Opus/Sonnet labels 
 - 5 analyse  → subagent: <yes/no>, model: <name or —>, condition: <met / skipped because …>
 - 6 cover    → subagent: <yes/no>, model: <name or —>, condition: <met / skipped because …>
 - 7 test     → subagent: <yes/no>, model: <name or —>, condition: <met / skipped because …>
-- 8 wrap-up  → subagent: <yes/no>, model: <name or —>, condition: <met / skipped because …>
-- 9 monitor  → subagent: <yes/no>, model: <name or —>, condition: <met / skipped because …>
+- 8 qa       → subagent: <yes/no>, model: <name or —>, condition: <met / skipped because …>
+- 9 wrap-up  → subagent: <yes/no>, model: <name or —>, condition: <met / skipped because …>
+- 10 monitor → subagent: <yes/no>, model: <name or —>, condition: <met / skipped because …>
 ```
 
 ## Reading the table
@@ -65,12 +66,17 @@ Pass each subagent the brief (or, absent one, the diff scope) so its prompt is g
 | 5 | `analyse` | No | — | The project's own static-analysis skill if it has one, else any linters present; skip if neither | Fix, then continue |
 | 6 | `cover` | Yes | Latest Sonnet model | Always | Add missing tests, then continue |
 | 7 | `test` | Yes | Latest Sonnet model | Always | Fix failures before moving on |
-| 8 | `wrap-up` | No | — | Always | Resolve blockers, then finish |
-| 9 | `monitor` | No | — | Only if wrap-up opened or updated a PR | Per the skill: fix and push; stop and report if unfixable |
+| 8 | `qa` | Yes | Latest Opus model | Only if the diff touched rendered output or client-side behaviour, AND browser automation is available, AND the app can be run locally | Fix, re-verify that path, then continue |
+| 9 | `wrap-up` | No | — | Always | Resolve blockers, then finish |
+| 10 | `monitor` | No | — | Only if wrap-up opened or updated a PR | Per the skill: fix and push; stop and report if unfixable |
 
 Run sequentially — start a step only if the previous one succeeded.
 
 The order matters in two places. **Cleanup precedes coverage**: `finalise` renames and deletes, so running it after `cover` would leave freshly-written tests pointing at names that no longer exist. Let the code reach its final shape, then test that shape. **`test` is last of the code steps** and is the pipeline's single full-suite gate — everything before it verifies narrowly, and step 7 is where the whole thing has to pass. `wrap-up` runs the suite again, but only through its own guard (it skips when nothing but docs changed), so on the common path that's two full runs, not seven.
+
+`qa` sits between the gate and the PR for two reasons. It runs **after** `test` because the code should be in final shape and the suite green before anyone drives a browser — QA's job is to find what tests can't reach, not to rediscover what they already catch. It runs **before** `wrap-up` so anything it finds gets fixed while the branch is still private, rather than as follow-up commits on an open PR. A fix at this stage does land after the single full-suite gate, so re-run the tests covering that path; `wrap-up`'s own suite run is the backstop.
+
+It gets a subagent at the top model tier despite looking mechanical. Driving a browser is easy; deciding what is worth exercising, reading a screenshot correctly, and noticing that something is subtly wrong rather than absent is not. A misjudged check here produces a *false green*, which is worse than skipping the step — so this is judgement work closer to `review` than to `test`. Expect it to skip often: most changes have no rendered surface, and the skill is written to say so and stop rather than perform QA theatre. It also cannot proceed without working browser automation, so treat an unavailable browser as a skip with a stated reason, not a failure.
 
 `analyse` is a project-scoped skill in most repos — it belongs to the project because it wraps that project's linters and formatters. Look for it in the project's own `.claude/skills/`, not just the global library, and fall back to running the linters directly if there's no skill wrapping them.
 

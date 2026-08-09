@@ -8,7 +8,7 @@ effort: max
 
 **Arguments:** `$ARGUMENTS`
 
-Drive a task from identification through to a clean, reviewed, tested implementation.
+Drive a task from identification through to a clean, reviewed, tested and QA'd implementation.
 
 ---
 
@@ -16,7 +16,7 @@ Drive a task from identification through to a clean, reviewed, tested implementa
 
 If the branch already has commits and a plan file exists, you're likely resuming. Read the plan file, check git log for what's done, and pick up from the first incomplete step. Ask the user to confirm before re-running any step that appears already complete.
 
-If the current branch name matches `^\d+-` and `gh` is available, treat the leading number as a GitHub issue reference and fetch it (`gh issue view <N> --json number,title,body,labels,state`) for additional context. If the issue isn't found, ignore silently — the prefix may be coincidental.
+If the current branch name matches `^\d+-` and `gh` is available, treat the leading number as a GitHub issue reference and fetch it for additional context — both `gh issue view <N> --json number,title,body,labels,state` and `gh issue view <N> --comments`, since the JSON form returns the opening post only and drops the thread silently. If the issue isn't found, ignore silently — the prefix may be coincidental.
 
 ---
 
@@ -24,7 +24,16 @@ If the current branch name matches `^\d+-` and `gh` is available, treat the lead
 
 ### If `$ARGUMENTS` is non-empty
 
-1. **GitHub issue check.** If `$ARGUMENTS` is a bare number (e.g. `42`) or starts with `#` (e.g. `#42`), and `gh` is available, treat it as a GitHub issue reference. Run `gh issue view <N> --json number,title,body,labels,state` and use the issue title + body as the task description. Quote the title so it's clear what was picked up. Skip the plan-file lookup in this case — the issue is the source of truth.
+1. **GitHub issue check.** If `$ARGUMENTS` is a bare number (e.g. `42`) or starts with `#` (e.g. `#42`), and `gh` is available, treat it as a GitHub issue reference. Run **both**:
+
+   ```
+   gh issue view <N> --json number,title,body,labels,state
+   gh issue view <N> --comments
+   ```
+
+   **The comments are part of the task, not optional colour.** `--json body` returns the opening post only and drops the thread silently, with no hint that anything is missing. Comments routinely carry the parts that change the work: a prerequisite that landed first and changed the shape, a design decision already made, a constraint discovered later, or scope the author explicitly added or withdrew. A body that looks complete is not evidence there is nothing else — check.
+
+   Use the title + body + comments together as the task description. Quote the title so it's clear what was picked up, and summarise anything in the comments that contradicts, narrows, or extends the body. Where a comment and the body disagree, the **later comment wins** — the body is rarely edited to match. Skip the plan-file lookup in this case — the issue is the source of truth.
 
 2. Otherwise, search for a plan file. Look for `PLAN.md`, `plan.md`, or any `*.md` file whose name suggests a project plan (glob `**/PLAN.md`, `**/plan.md`). If found, read it.
 
@@ -76,6 +85,7 @@ If yes, **skip Steps 2 and 3** and go directly to Step 4. Present a brief summar
 Delegate context gathering to a subagent using the Agent tool. Use the latest Opus model — accurate context gathering directly shapes plan quality. Pass it:
 
 - The task description
+- **The full issue comment thread verbatim, if the task came from an issue** — not your summary of it. The subagent needs to reconcile what the comments say against what the code actually looks like now, which it can't do from a paraphrase.
 - The plan file contents (if found)
 - Any conversation context needed to understand the task
 
