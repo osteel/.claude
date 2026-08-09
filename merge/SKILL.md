@@ -1,6 +1,6 @@
 ---
 name: merge
-description: Squash-merge a pull request with a commit message describing the outcome — the end state of the code — rather than the steps taken to get there.
+description: Squash-merge a pull request with a commit message describing the outcome — the end state of the code — rather than the steps taken to get there. Then comments on any other open issue whose premise, blockers or scope the merged change has moved.
 disable-model-invocation: true
 effort: high
 ---
@@ -111,7 +111,30 @@ Leave the remote branch in place unless asked — deleting it is a separate call
 
 Verify rather than assume it worked: `gh pr view <N> --json state,mergedAt` and the linked issue's state if there was one.
 
-## 7. Return to the default branch and clean up
+## 7. Update related open issues
+
+Now that the change has actually landed, check whether it changes what any other open issue says. A merged change often invalidates something recorded elsewhere and nobody finds out — the issue sits with a stale premise until someone picks it up and rediscovers it the hard way.
+
+This belongs here rather than at PR time for two reasons. Before the merge any such claim is provisional: a PR can be reworked or closed, and "this is now unblocked" would be wrong. And you have already read the full diff and the PR body in step 3, so the judgement costs nothing extra.
+
+If `gh` isn't available, or there are no other open issues, skip silently.
+
+List them (`gh issue list --state open --limit 40 --json number,title,labels`), then read the bodies of the ones whose titles suggest overlap. Don't comment from a title match alone.
+
+**The bar is that the merge alters what the issue says, not that it touches the same area.** Comment when one of these holds, quoting the specific thing that moved:
+
+- **A blocker closed.** The issue names a dependency this change satisfied. Say it's unblocked, and flag anything the issue states that should be re-checked before starting — counts of failing call sites, file lists and similar go stale fast.
+- **A premise no longer holds.** The issue assumes something this change disproved or narrowed. Highest value, and the easiest to miss, because the issue still reads as correct.
+- **The scope moved.** New code landed inside the area a proposed rule, refactor or migration would cover, or a boundary the issue named has shifted.
+- **Partially implemented.** Groundwork the issue needed now exists. Say what's already wired so the next person doesn't rebuild it.
+
+Skip anything that merely shares files or vocabulary. Volume is the failure mode: commenting on five issues means the bar was almost certainly missed on four, and the noise trains people to ignore the useful one.
+
+Write comments as statements of fact about the merged change, specific enough to verify — name the file, symbol or quoted line, and reference the PR. Don't editorialise about the issue's priority or whether it's still worth doing; that's the owner's call.
+
+**Comment, never close, and never reopen.** The PR's own issue is already closed by `Fixes #N`, so don't comment there as well. Any other issue that now looks complete gets a comment saying so, and the owner decides.
+
+## 8. Return to the default branch and clean up
 
 Do this **only when the PR you merged is the branch currently checked out** — compare `headRefName` from step 1 against `git branch --show-current`. Merging some other PR shouldn't yank someone off the work they're sitting on.
 
@@ -125,4 +148,4 @@ git branch -D <branch>
 
 `-D` rather than `-d` is deliberate. A squash merge puts a single new commit on the default branch, so none of the branch's own commits are ancestors of it and `-d` refuses the delete as "not fully merged". You have just confirmed the PR merged, so the content is on the default branch under a different SHA — this is the narrow case where forcing is correct rather than a way around a warning. If the merge somehow didn't land, step 6 would have caught it and you would not be here.
 
-Report the merge commit SHA, the deleted branch, and whether the issue auto-closed. If the remote branch still exists (GitHub deletes it automatically only when the repo is configured to), say so — that one is theirs to remove.
+Report the merge commit SHA, the deleted branch, whether the issue auto-closed, and any other issues you commented on in step 7 with the reason — so the user can correct or delete anything you got wrong. If the remote branch still exists (GitHub deletes it automatically only when the repo is configured to), say so — that one is theirs to remove.

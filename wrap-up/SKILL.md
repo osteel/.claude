@@ -86,3 +86,4 @@ Gather context:
 - **Issue link check.** Same as step 10 — if the branch name matches `^(\d+)-` and the issue exists and is open, include `Fixes #<N>` in the rewritten body. Preserve any existing `Fixes #N` line if the body already had one.
 
 Rewrite the PR description to reflect the current state of the branch (same format as step 10 — see `references/pr-update.md`). Update immediately — no confirmation needed. Then print the PR URL.
+
