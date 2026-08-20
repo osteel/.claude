@@ -8,7 +8,7 @@ Default when the repo has no template:
 Fixes #<N>   <!-- only when the branch name starts with "<N>-" and the issue exists & is open; omit the line entirely otherwise -->
 
 ## Description
-<short prose on what the work does and why — two paragraphs at most>
+<short prose on what the work does and why — two paragraphs preferred, a third only when the work genuinely needs it>
 
 ## Changes
 - <one bullet per change>
