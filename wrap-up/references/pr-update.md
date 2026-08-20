@@ -1,14 +1,20 @@
 # PR Body Format
 
+Match the repo's own PR template when it has one (`.github/pull_request_template.md`, or `.github/PULL_REQUEST_TEMPLATE/`) — read it and fill in its sections rather than imposing the default below. `gh pr create --body` bypasses the template, so following it is on you.
+
+Default when the repo has no template:
+
 ```
-## Summary
-- <bullet points covering what changed and why>
-
-## Test plan
-- <bulleted checklist of what to verify>
-
 Fixes #<N>   <!-- only when the branch name starts with "<N>-" and the issue exists & is open; omit the line entirely otherwise -->
+
+## Description
+<short prose on what the work does and why — two paragraphs at most>
+
+## Changes
+- <one bullet per change>
 ```
+
+Strip the template's HTML comments from the body you submit — they're authoring guidance, not content.
 
 Do not add "Generated with Claude Code" or any mention of Claude/AI.
 
