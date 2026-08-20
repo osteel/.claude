@@ -68,7 +68,9 @@ Pass each subagent the brief (or, absent one, the diff scope) so its prompt is g
 
 Run sequentially — start a step only if the previous one succeeded.
 
-**There is one full-suite run, and it lives inside `wrap-up`.** Every step before it verifies narrowly — the tests covering the files it touched, the linters over the diff — and `wrap-up`'s own guarded run is where the whole thing has to pass before anything is committed. Don't add a full-suite step in front of it: on a green branch that run has nothing to find that the targeted runs missed, and it doubles the slowest thing in the pipeline.
+**There is one test gate, and it lives inside `wrap-up`.** Every step before it verifies narrowly — the tests covering the files it touched, the linters over the diff — and `wrap-up`'s own guarded run is where the change has to pass before anything is committed. Don't add a test step in front of it: on a green branch that run has nothing to find that the targeted runs missed, and it doubles the slowest thing in the pipeline.
+
+**The gate is the project's own default test command, not a forced full run.** Where a project uses test impact analysis (Pest's Tia, Jest `--onlyChanged`, `go test` caching, and friends), its default command already replays what your changes can't have affected, and its CI is the full-suite backstop that decides merge-green. Overriding that to force every test — `--ci`, `--no-tia`, `--runInBand` — is duplicated work on the slowest thing in the loop, and needs a concrete reason: a replayed result you don't believe, or a changed input the tool's graph cannot see. Check the project's own conventions before assuming a full run is the gate, and pass that instruction to every step.
 
 `qa` sits immediately before `wrap-up` for two reasons. Anything it finds gets fixed while the branch is still private, rather than as follow-up commits on an open PR — and because the gate now lives in `wrap-up`, a QA fix lands *before* the full suite runs rather than after it. QA's job is to find what tests structurally can't reach, so don't let it re-tread ground the targeted runs already cover.
 

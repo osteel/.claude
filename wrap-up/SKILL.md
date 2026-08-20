@@ -19,6 +19,7 @@ First, check whether a test run is necessary:
 - Run `git status --short` and `git diff HEAD --name-only`.
 - If there are no uncommitted changes, or all changes are to documentation or configuration files only (e.g. `.md` files, `PLAN.md`, ADR files, guidelines, lock files), skip this step — the suite was already passing and nothing that could affect tests has changed.
 - If there are uncommitted changes to source or test files, invoke the `test` skill. If all tests pass, continue. If any fail, stop and resolve them before proceeding. If no test command can be identified (no config, no test scripts), note this and continue.
+- **Use the project's default test command.** Where the project uses test impact analysis, that default is impact-filtered and its CI is the full-suite backstop — forcing every test (`--ci`, `--no-tia`) needs a concrete reason, not caution. Report what actually ran: these tools print the full test count while executing a fraction, so quote the affected-files line rather than implying a full pass.
 
 ## 3. Update the plan
 
