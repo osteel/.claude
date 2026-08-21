@@ -72,6 +72,7 @@ Branch on the result (see `references/pr-update.md` for the ancestor check comma
 Gather context:
 - `git log main...HEAD --oneline` — all commits on this branch
 - `git diff main...HEAD` — full diff
+- **PR template check.** Look for a template before writing anything: `.github/pull_request_template.md`, `.github/PULL_REQUEST_TEMPLATE.md`, or any file under `.github/PULL_REQUEST_TEMPLATE/` (also check the repo root and `docs/`). If one exists it dictates the body — fill in its sections, add no headings of your own, and strip its HTML comments. If there is none, format the body however best suits the change; `references/pr-update.md` has a sensible default.
 - **Issue link check.** If the branch name matches `^(\d+)-` and `gh` is available, verify the issue exists and is open (`gh issue view <N> --json number,state`). If so, include `Fixes #<N>` in the PR body so merge auto-closes the issue. If the issue doesn't exist or is already closed, skip silently — the prefix may be coincidental or stale.
 
 Write a PR title (under 70 chars) and body using the format in `references/pr-update.md`. Create immediately — no confirmation needed. Then print the PR URL.
@@ -84,6 +85,7 @@ Gather context:
 - `git log main...HEAD --oneline`
 - `git diff main...HEAD`
 - Current PR body: `gh pr view --json body -q .body`
+- **PR template check.** Look for a template before writing anything: `.github/pull_request_template.md`, `.github/PULL_REQUEST_TEMPLATE.md`, or any file under `.github/PULL_REQUEST_TEMPLATE/` (also check the repo root and `docs/`). If one exists it dictates the body — fill in its sections, add no headings of your own, and strip its HTML comments. If there is none, format the body however best suits the change; `references/pr-update.md` has a sensible default.
 - **Issue link check.** Same as step 10 — if the branch name matches `^(\d+)-` and the issue exists and is open, include `Fixes #<N>` in the rewritten body. Preserve any existing `Fixes #N` line if the body already had one.
 
 Rewrite the PR description to reflect the current state of the branch (same format as step 10 — see `references/pr-update.md`). Update immediately — no confirmation needed. Then print the PR URL.

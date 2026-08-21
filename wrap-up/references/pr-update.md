@@ -1,8 +1,10 @@
 # PR Body Format
 
-Match the repo's own PR template when it has one (`.github/pull_request_template.md`, or `.github/PULL_REQUEST_TEMPLATE/`) — read it and fill in its sections rather than imposing the default below. `gh pr create --body` bypasses the template, so following it is on you.
+**Check for a template first.** Look in `.github/pull_request_template.md`, `.github/PULL_REQUEST_TEMPLATE.md`, `.github/PULL_REQUEST_TEMPLATE/`, the repo root, and `docs/`. `gh pr create --body` bypasses the template entirely, so nothing applies it for you.
 
-Default when the repo has no template:
+When a template exists, it *is* the format. Fill in its sections, honour any length guidance it gives, and add nothing beyond it — no extra headings, no tables, no "worth knowing" or "out of scope" sections you invented. Detail that doesn't fit belongs in the commit message, an ADR, or a review comment. Strip the template's HTML comments from the body you submit; they're authoring guidance, not content.
+
+When there is no template, you are free to format the body however best suits the change. This is a reasonable default:
 
 ```
 Fixes #<N>   <!-- only when the branch name starts with "<N>-" and the issue exists & is open; omit the line entirely otherwise -->
@@ -13,8 +15,6 @@ Fixes #<N>   <!-- only when the branch name starts with "<N>-" and the issue exi
 ## Changes
 - <one bullet per change>
 ```
-
-Strip the template's HTML comments from the body you submit — they're authoring guidance, not content.
 
 Do not add "Generated with Claude Code" or any mention of Claude/AI.
 
