@@ -128,11 +128,9 @@ Run `git branch --show-current`.
 
 ### If on `main` or `master`
 
-Suggest a branch name derived from the approved plan and task description (kebab-case, concise, e.g. `add-email-validation`). If the task came from a GitHub issue, prefix the slug with the issue number (e.g. `42-add-email-validation`) — `wrap-up` uses this prefix to add `Fixes #N` to the PR body. Then ask:
+Derive a branch name from the approved plan and task description (kebab-case, concise, e.g. `add-email-validation`). If the task came from a GitHub issue, prefix the slug with the issue number (e.g. `42-add-email-validation`) — `wrap-up` uses this prefix to add `Fixes #N` to the PR body.
 
-> I suggest the branch name `<name>`. Shall I create it? If you'd prefer a different name, enter it below and I'll create that instead.
-
-Wait for the user's response, then run `git checkout -b <branch>` with the confirmed or provided name before continuing.
+Create it yourself with `git checkout -b <branch>` and say what you named it. **Do not ask for approval of the branch name** — plan approval is approval to start work, and a branch name is trivially renameable.
 
 ### If on a feature branch
 
