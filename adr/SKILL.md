@@ -25,9 +25,25 @@ effort: medium
 
 6. **Create the file** at `docs/decisions/NNNN-kebab-case-title.md` only after approval, incorporating any requested changes. Create the directory if it doesn't exist.
 
-7. **Update superseded ADRs**: For each ADR this decision supersedes, edit it to set `Status: superseded` and fill in `Superseded by: NNNN - Title` with the new ADR's number and title. Keeping the superseded chain accurate is what makes the decision graph navigable — a stale status misleads future readers into thinking a replaced decision is still live.
+7. **Update superseded and amended ADRs**: For each ADR this decision supersedes, edit it to set `Status: superseded` and fill in `Superseded by: NNNN - Title`. For each ADR this decision *amends* — changes part of, without replacing — add `Amended by: NNNN - Title` to it and `Amends: NNNN - Title` to the new one. Keeping the chain accurate is what makes the decision graph navigable: a stale status misleads future readers into thinking a replaced decision is still live.
+
+   **Every contradiction needs a forward pointer.** If this ADR changes a config value, a component order, a model choice or a named mechanism that an earlier ADR states, the earlier ADR must gain a pointer to this one — even when the relationship is too small for `Amends`, in which case `Related` will do. Without it the old ADR keeps asserting the old value in the present tense and nothing warns the reader. This is the single most common way a decision record goes quietly wrong.
 
 8. **Update the index**: If `docs/decisions/README.md` exists, read it first and append the new ADR in the same style as existing entries.
+
+## How much code to name
+
+An ADR records *why*, and its references should be at the altitude that survives a refactor. Name three kinds of thing:
+
+- **The subject of the decision** — the class, enum or interface the decision is about. If renaming it would make the ADR meaningless, it belongs. A rename *should* force a re-read.
+- **Durable anchors** — database columns, config keys, routes, package names, and a vendor's own vocabulary (their event names, their API fields). These outlive class refactors and are usually the right thing to pin a decision to.
+- **The one mechanism the decision turns on**, where there is one — a single interface swap, a single guard.
+
+Keep out the implementation detail that will rot without changing the decision: helper methods, call sites, collaborators mentioned only to illustrate, string literals, SQL fragments, config tables transcribed from source, vendor internals, test class names, and version pins. Also keep out anything ephemeral by nature — model SKUs, scenario or fixture ids, dated measurements.
+
+**If a conventions or guidelines page already documents the mechanics, cite it by path instead of restating it.** The prose there is maintained; a copy inside an ADR is not, and the copy is the one that silently falls behind.
+
+A useful test: *if this symbol were renamed tomorrow, would the decision change?* If not, it is illustration, and the ADR is stronger without it.
 
 ## Template
 
@@ -37,6 +53,8 @@ effort: medium
 - **Status**: proposed
 - **Supersedes**: <!-- NNNN - Title, only if this ADR replaces a previous one -->
 - **Superseded by**: <!-- NNNN - Title, only if this ADR is later replaced -->
+- **Amends**: <!-- NNNN - Title, only if this ADR changes part of a previous one without replacing it -->
+- **Amended by**: <!-- NNNN - Title, only if part of this ADR is later changed by another -->
 - **Related**: <!-- NNNN - Title, only if this ADR extends or relates to another -->
 - **Date**: YYYY-MM-DD
 
